@@ -141,20 +141,155 @@
     </main>
 
     <!-- Bootstrap JS -->
+     <!-- Overlay para vista ampliada -->
+        <div class="overlay" id="imageOverlay">
+            <div class="controls">
+                <button onclick="closeOverlay()">X</button>
+            </div>
+            <div class="nav-prev">
+                <button onclick="prevImage()">Anterior</button>
+            </div>
+            <img id="enlargedImage" src="" alt="Imagen Ampliada">
+            <div class="nav-next">
+                <button onclick="nextImage()">Siguiente</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
         function setGridMode() {
             const grid = document.getElementById('masonry-grid');
             grid.className = 'masonry-grid grid-mode';
+            // Añadir evento de clic solo en modo cuadrícula
+            const images = grid.getElementsByTagName('img');
+            for (let img of images) {
+                img.onclick = function() {
+                    showImage(this.src, this.alt);
+                };
+            }
         }
 
         function setRowMode() {
             const grid = document.getElementById('masonry-grid');
             grid.className = 'masonry-grid row-mode';
+            // Remover evento de clic en modo cascada
+            const images = grid.getElementsByTagName('img');
+            for (let img of images) {
+                img.onclick = null;
+            }
+        }
+
+        let currentIndex = -1;
+        let scale = 1;
+        let isDragging = false;
+        let startX = 0;
+        let startY = 0;
+        let translateX = 0;
+        let translateY = 0;
+        const images = document.querySelectorAll('#masonry-grid img');
+        const enlargedImage = document.getElementById('enlargedImage');
+        const body = document.body;
+
+        function showImage(src, alt) {
+            const overlay = document.getElementById('imageOverlay');
+            enlargedImage.src = src;
+            enlargedImage.alt = alt;
+            scale = 1; // Reset scale
+            translateX = 0;
+            translateY = 0;
+            enlargedImage.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+            overlay.classList.add('active');
+            body.style.overflow = 'hidden'; // Desactivar desplazamiento de fondo al abrir overlay
+
+            // Encontrar el índice de la imagen actual
+            currentIndex = Array.from(images).findIndex(img => img.src === src);
+
+            // Añadir eventos de arrastre
+            enlargedImage.addEventListener('mousedown', startDragging);
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', stopDragging);
+            // Añadir evento de zoom con rueda
+            enlargedImage.addEventListener('wheel', handleZoom);
+        }
+
+        function closeOverlay() {
+            const overlay = document.getElementById('imageOverlay');
+            overlay.classList.remove('active');
+            body.style.overflow = 'auto'; // Restaurar desplazamiento de fondo al cerrar overlay
+            // Remover eventos para evitar conflictos
+            enlargedImage.removeEventListener('mousedown', startDragging);
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('mouseup', stopDragging);
+            enlargedImage.removeEventListener('wheel', handleZoom);
+        }
+
+        function nextImage() {
+            if (currentIndex < images.length - 1) {
+                currentIndex++;
+                showImage(images[currentIndex].src, images[currentIndex].alt);
+            }
+        }
+
+        function prevImage() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                showImage(images[currentIndex].src, images[currentIndex].alt);
+            }
+        }
+
+        function handleZoom(e) {
+            e.preventDefault(); // Evita el desplazamiento de la página
+            const rect = enlargedImage.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left; // Posición X relativa a la imagen
+            const mouseY = e.clientY - rect.top; // Posición Y relativa a la imagen
+            const width = rect.width;
+            const height = rect.height;
+
+            // Ajustar el zoom progresivamente con baja sensibilidad
+            const delta = e.deltaY * -0.001; // Sensibilidad baja para zoom suave
+            scale = Math.min(Math.max(1, scale + delta), 2); // Limita entre 1x y 2x
+
+            // Calcular el desplazamiento para centrar el zoom en el ratón
+            const newWidth = width * scale;
+            const newHeight = height * scale;
+            const offsetX = (mouseX / width) * (newWidth - width);
+            const offsetY = (mouseY / height) * (newHeight - height);
+            translateX -= offsetX;
+            translateY -= offsetY;
+
+            enlargedImage.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+        }
+
+        function startDragging(e) {
+            isDragging = true;
+            startX = e.clientX - translateX;
+            startY = e.clientY - translateY;
+        }
+
+        function drag(e) {
+            if (isDragging) {
+                translateX = e.clientX - startX;
+                translateY = e.clientY - startY;
+                enlargedImage.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+            }
+        }
+
+        function stopDragging() {
+            isDragging = false;
+            // La imagen se queda donde está al soltar, sin resetear
         }
 
         // Establecer modo predeterminado (cuadrícula) al cargar la página
         window.onload = setGridMode;
+
+        // Cerrar overlay al hacer clic fuera de la imagen
+        document.getElementById('imageOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeOverlay();
+            }
+        });
     </script>
 </body>
 </html>
