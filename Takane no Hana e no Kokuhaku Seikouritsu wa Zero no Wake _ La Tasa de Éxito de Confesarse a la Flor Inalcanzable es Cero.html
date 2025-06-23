@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake - TuMangaOnline</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #0a1c2e; /* Fondo azul negro */
+            font-family: 'Roboto', sans-serif;
+        }
+        .navbar {
+            background-color: #1a252f;
+        }
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+            font-weight: bold;
+        }
+        .nav-link:hover {
+            color: #e91e63 !important;
+        }
+        .manga-title {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 40px 0;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        .mode-buttons {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .mode-buttons button {
+            margin: 0 10px;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+        }
+        .masonry-grid {
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+        }
+        .masonry-grid.grid-mode {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .masonry-grid.row-mode {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 20px;
+        }
+        .masonry-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .masonry-item img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        main {
+            padding-left: 10px;
+            padding-right: 10px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">TuMangaOnline</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="upload.html">Subir Manga</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Manga Content -->
+    <main>
+        <h1 class="manga-title">Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake</h1>
+        <div class="mode-buttons">
+            <button class="btn btn-primary" onclick="setGridMode()">Modo Cuadrícula</button>
+            <button class="btn btn-primary" onclick="setRowMode()">Modo Cascada</button>
+        </div>
+        <div class="masonry-grid grid-mode" id="masonry-grid">
+            
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/01.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 2"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/02.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 3"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/03.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 4"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/04.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 5"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/05.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 6"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/06.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 7"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/07.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 8"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/08.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 9"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/09.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 10"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/10.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 11"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/11.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 12"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/12.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 13"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/13.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 14"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/14.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 15"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/15.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 16"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/16.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 17"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/17.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 18"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/18.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 19"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/19.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 20"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/20.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 21"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/21.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 22"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/22.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 23"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/23.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 24"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/24.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 25"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/25.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 26"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/26.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 27"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/27.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 28"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/28.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 29"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/29.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 30"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/30.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 31"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/31.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 32"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/32.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 33"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/33.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 34"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/34.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 35"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/35.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 36"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/36.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 37"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/37.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 38"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/38.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 39"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/39.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 40"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/40.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 41"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/41.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 42"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/042.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 43"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/43.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 44"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/44.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 45"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/45.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 46"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/46.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 47"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/47.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 48"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/48.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 49"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/49.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 50"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/50.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 51"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/51.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 52"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/52.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 53"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/53.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 54"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/54.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 55"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/55.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 56"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/56.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 57"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/57.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 58"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/58.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 59"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/59.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 60"></div>
+            <div class="masonry-item"><img src="MANGAS/Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero/60.webp" alt="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake Página 61"></div>
+        </div>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        function setGridMode() {
+            const grid = document.getElementById('masonry-grid');
+            grid.className = 'masonry-grid grid-mode';
+        }
+
+        function setRowMode() {
+            const grid = document.getElementById('masonry-grid');
+            grid.className = 'masonry-grid row-mode';
+        }
+
+        // Establecer modo predeterminado (cuadrícula) al cargar la página
+        window.onload = setGridMode;
+    </script>
+</body>
+</html>

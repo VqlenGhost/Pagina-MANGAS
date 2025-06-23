@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir Manga - SubeMangas</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f4f7fa;
+            font-family: 'Roboto', sans-serif;
+        }
+        .navbar {
+            background-color: #1a252f;
+        }
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+            font-weight: bold;
+        }
+        .nav-link:hover {
+            color: #e91e63 !important;
+        }
+        .main-content {
+            background: linear-gradient(135deg, #2c3e50, #1a252f);
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+        .title-section {
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        .upload-section {
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .upload-section h2 {
+            color: #e91e63;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .btn-upload {
+            background-color: #e91e63;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease;
+        }
+        .btn-upload:hover {
+            background-color: #c2185b;
+        }
+        .form-control:focus {
+            border-color: #e91e63;
+            box-shadow: 0 0 5px rgba(233, 30, 99, 0.5);
+        }
+        .manga-preview {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: center;
+        }
+        .manga-preview img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">SubeMangas</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="upload.html">Subir Manga</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Title Section -->
+        <div class="container text-center mb-5">
+            <h1 class="title-section display-4">Subir Manga</h1>
+            <p class="text-light lead">¡Comparte tus mangas favoritos con la comunidad de anime!</p>
+        </div>
+
+        <!-- Upload Section -->
+        <section class="upload-section">
+            <h2>Sube tu Manga</h2>
+            <form>
+                <div class="mb-3">
+                    <label for="mangaTitle" class="form-label">Título del Manga</label>
+                    <input type="text" class="form-control" id="mangaTitle" placeholder="Ej. One Piece" required>
+                </div>
+                <div class="mb-3">
+                    <label for="mangaFile" class="form-label">Selecciona el archivo del Manga</label>
+                    <input type="file" class="form-control" id="mangaFile" accept=".pdf,.zip,.rar" required>
+                </div>
+                <div class="mb-3">
+                    <label for="mangaDescription" class="form-label">Descripción</label>
+                    <textarea class="form-control" id="mangaDescription" rows="4" placeholder="Describe tu manga..."></textarea>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-upload">Subir Manga</button>
+                </div>
+            </form>
+
+            <!-- Preview Section (Placeholder) -->
+            <div class="manga-preview">
+                <h4>Vista Previa</h4>
+                <img src="https://via.placeholder.com/200x300?text=Manga+Cover" alt="Manga Cover Preview">
+                <p class="mt-2 text-muted">Aquí aparecerá la portada de tu manga.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

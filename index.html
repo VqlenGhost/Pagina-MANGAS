@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TuMangaOnline - Plataforma de Manga y Anime</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f4f7fa;
+            font-family: 'Roboto', sans-serif;
+        }
+        .navbar {
+            background-color: #1a252f;
+        }
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+            font-weight: bold;
+        }
+        .nav-link:hover {
+            color: #e91e63 !important;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #2c3e50, #1a252f);
+            color: #fff;
+            text-align: center;
+            padding: 80px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        .manga-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            height: 700px; /* Manteniendo altura previa */
+            display: flex;
+            flex-direction: column;
+        }
+        .manga-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        .manga-card img {
+            width: 100%;
+            height: 400px; /* Manteniendo altura previa */
+            object-fit: cover;
+        }
+        .manga-card .card-body {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+            min-height: 0;
+        }
+        .manga-card .card-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            overflow: hidden;
+            padding-top: 10px;
+        }
+        .manga-card .card-title {
+            color: #e91e63;
+            font-weight: bold;
+            font-size: 1.6rem; /* Aumentado para mejor legibilidad con mayor ancho */
+            margin-bottom: 12px;
+        }
+        .manga-card .card-author {
+            color: #777;
+            font-size: 1.2rem; /* Aumentado para mejor legibilidad */
+            margin-bottom: 12px;
+        }
+        .manga-card .card-text {
+            color: #555;
+            font-size: 1.2rem; /* Aumentado para mejor legibilidad */
+            max-height: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box; /* Prefijo WebKit */
+            -webkit-line-clamp: 4; /* Limita a 4 líneas */
+            -webkit-box-orient: vertical; /* Orientación vertical */
+            /* Fallback para Firefox (experimental y limitado) */
+            display: -moz-box;
+            -moz-line-clamp: 4;
+            -moz-box-orient: vertical;
+            /* Fallback genérico para otros navegadores */
+            display: block;
+            margin-bottom: 12px;
+        }
+        .btn-read {
+            background-color: #e91e63;
+            border: none;
+            padding: 12px 24px;
+            color: #fff;
+            font-size: 1.2rem; /* Aumentado para mejor legibilidad */
+            align-self: flex-end;
+            margin-top: auto;
+            width: 100%;
+            text-align: center;
+        }
+        .btn-read:hover {
+            background-color: #c2185b;
+        }
+        .badge-genre {
+            background-color: #2c3e50;
+            margin-right: 6px;
+            margin-bottom: 6px;
+            font-size: 1.1rem; /* Aumentado para legibilidad */
+            display: inline-block;
+        }
+        .genres-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+            min-height: 30px;
+        }
+        .card-footer {
+            background-color: #f8f9fa;
+            font-size: 1.1rem; /* Aumentado para legibilidad */
+            color: #777;
+            text-align: center;
+            padding: 12px;
+        }
+        .row-cols-3 .col {
+            display: flex;
+            justify-content: center; /* Centrar las tarjetas */
+        }
+        main {
+            padding-left: 10px;
+            padding-right: 10px;
+            margin: 0 auto;
+            max-width: 1400px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">TuMangaOnline</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="upload.html">Subir Manga</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1>TuMangaOnline</h1>
+            <p class="lead">Descubre y comparte los mejores mangas con la comunidad de anime</p>
+        </div>
+    </section>
+
+    <!-- Manga Cards Section -->
+    <main class="container my-5">
+        <h2 class="text-center mb-4">Mangas Disponibles</h2>
+        <div class="row row-cols-1 row-cols-md-3 g-4"> <!-- Cambiado a 3 columnas -->
+            <!-- Manga Card 1 -->
+            <div class="col">
+                <div class="manga-card card">
+                    <img src="SUBIDOS/Imagnes portada/Haizan Himekishi.webp" class="card-img-top" alt="Haizan Himekishi">
+                    <div class="card-body">
+                        <div class="card-content">
+                            <h5 class="card-title">Haizan Himekishi</h5>
+                            <p class="card-author">Autor: Neromashin</p>
+                            
+                            
+                        </div>
+                        <a href="haizan_himekishi.html" class="btn btn-read">Leer Ahora</a>
+                    </div>
+                    <div class="card-footer">
+                        Subido: 22/06/2025
+                    </div>
+                </div>
+            </div>
+            <!-- Manga Card 2 -->
+            <div class="col">
+                <div class="manga-card card">
+                    <img src="SUBIDOS/Imagnes portada/Mi preciosa Novia - Ore no Jiman no Kanojo desu.webp" class="card-img-top" alt="Mi preciosa Novia">
+                    <div class="card-body">
+                        <div class="card-content">
+                            <h5 class="card-title">Mi preciosa Novia - Ore no Jiman no Kanojo desu</h5>
+                            <p class="card-author">Autor: Nylon</p>
+                            
+                            
+                        </div>
+                        <a href="Mi preciosa Novia.html" class="btn btn-read">Leer Ahora</a>
+                    </div>
+                    <div class="card-footer">
+                        Subido: 20/06/2025
+                    </div>
+                </div>
+            </div>
+            <!-- Manga Card 3 -->
+            <div class="col">
+                <div class="manga-card card">
+                    <img src="SUBIDOS/Imagnes portada/Seiyoku ni Shoujiki Sugiru Shota Yuusha 2.jpg" class="card-img-top" alt="Seiyoku ni Shoujiki Sugiru Shota Yuusha 2">
+                    <div class="card-body">
+                        <div class="card-content">
+                            <h5 class="card-title">Seiyoku ni Shoujiki Sugiru Shota Yuusha 2</h5>
+                            <p class="card-author">Autor: Mizuryu Kei</p>
+                            <p class="card-text">Humanidad luchando contra titanes en un mundo postapocalíptico.</p>
+                            <div class="genres-container">
+                                
+                            </div>
+                        </div>
+                        <a href="Seiyoku ni Shoujiki Sugiru Shota Yuusha 2.html" class="btn btn-read">Leer Ahora</a>
+                    </div>
+                    <div class="card-footer">
+                        Subido: 18/06/2025
+                    </div>
+                </div>
+            </div>
+            <!-- Manga Card 4 -->
+            <div class="col">
+                <div class="manga-card card">
+                    <img src="SUBIDOS/Imagnes portada/La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero.png" class="card-img-top" alt="LOCOS">
+                    <div class="card-body">
+                        <div class="card-content">
+                            <h5 class="card-title">Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake</h5>
+                            <p class="card-author">Autor: fan</p>
+                            <p class="card-text">Una historia épica de locura y caos en un mundo distópico.</p>
+                            <div class="genres-container">
+                                
+                            </div>
+                        </div>
+                        <a href="Takane no Hana e no Kokuhaku Seikouritsu wa Zero no Wake _ La Tasa de Éxito de Confesarse a la Flor Inalcanzable es Cero.html" class="btn btn-read">Leer Ahora</a>
+                    </div>
+                    <div class="card-footer">
+                        Subido: 21/06/2025
+                    </div>
+                </div>
+            </div>
+
+
+<!-- cad 5 -->
+
+            <div class="col">
+                <div class="manga-card card">
+                    <img src="SUBIDOS/Imagnes portada/No Mark.png" class="card-img-top" alt="LOCOS">
+                    <div class="card-body">
+                        <div class="card-content">
+                            <h5 class="card-title">No Mark</h5>
+                            <p class="card-author">Autor: Muunyan</p>
+                            <p class="card-text">Coach y estudiantes.</p>
+                            <div class="genres-container">
+                                
+                            </div>
+                        </div>
+                        <a href="No mark.html" class="btn btn-read">Leer Ahora</a>
+                    </div>
+                    <div class="card-footer">
+                        Subido: 21/06/2025
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
