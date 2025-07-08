@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuuki Iin Ichijou no Haiboku + After - TuMangaOnline</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #0a1c2e; /* Fondo azul negro */
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: auto; /* Permitir desplazamiento por defecto */
+        }
+        .navbar {
+            background-color: #1a252f;
+        }
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+            font-weight: bold;
+        }
+        .nav-link:hover {
+            color: #e91e63 !important;
+        }
+        .manga-title {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 40px 0;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        .mode-buttons {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .mode-buttons button {
+            margin: 0 10px;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+        }
+        .masonry-grid {
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+        }
+        .masonry-grid.grid-mode {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .masonry-grid.row-mode {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 20px;
+            cursor: pointer; /* Indicador de clic en modo cuadrícula */
+        }
+        .masonry-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .masonry-item img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        main {
+            padding-left: 10px;
+            padding-right: 10px;
+            margin: 0 auto;
+        }
+        /* Estilos para el overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            overflow: auto; /* Permitir desplazamiento si la imagen es ancha */
+        }
+        .overlay.active {
+            display: flex;
+        }
+        .overlay img {
+            max-height: 100vh; /* Ocupa el alto de la pantalla */
+            width: auto; /* Ajusta el ancho proporcionalmente */
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .overlay .controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .overlay .controls button {
+            background-color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1.2rem;
+        }
+        .overlay .controls button:hover {
+            background-color: #e91e63;
+            color: #fff;
+        }
+        .overlay .nav-prev {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .overlay .nav-next {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .overlay .nav-prev button,
+        .overlay .nav-next button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .overlay .nav-prev button:hover,
+        .overlay .nav-next button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">TuMangaOnline</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="upload.html">Subir Manga</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Manga Content -->
+    <main>
+        <h1 class="manga-title">Fuuki Iin Ichijou no Haiboku + After</h1>
+        <div class="mode-buttons">
+            <button class="btn btn-primary" onclick="setGridMode()">Modo Cuadrícula</button>
+            <button class="btn btn-primary" onclick="setRowMode()">Modo Cascada</button>
+        </div>
+        <div class="masonry-grid grid-mode" id="masonry-grid">
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/01.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 1"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/02.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 2"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/03.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 3"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/04.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 4"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/05.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 5"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/06.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 6"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/07.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 7"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/08.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 8"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/09.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 9"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/10.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 10"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/11.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 11"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/12.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 12"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/13.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 13"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/14.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 14"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/15.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 15"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/16.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 16"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/17.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 17"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/18.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 18"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/19.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 19"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/20.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 20"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/21.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 21"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/22.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 22"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/23.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 23"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/24.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 24"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/25.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 25"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/26.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 26"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/27.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 27"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/28.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 28"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/29.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 29"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/30.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 30"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/31.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 31"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/32.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 32"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/33.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 33"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/34.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 34"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/35.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 35"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/36.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 36"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/37.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 37"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/38.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 38"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/39.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 39"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/40.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 40"></div>
+            <div class="masonry-item"><img src="MANGAS/Fuuki Iin Ichijou no Haiboku + After/41.webp" alt="Fuuki Iin Ichijou no Haiboku + After Página 41"></div>
+        </div>
+
+        <!-- Overlay para vista ampliada -->
+        <div class="overlay" id="imageOverlay">
+            <div class="controls">
+                <button onclick="closeOverlay()">X</button>
+            </div>
+            <div class="nav-prev">
+                <button onclick="prevImage()">Atrás</button>
+            </div>
+            <img id="enlargedImage" src="" alt="Imagen Ampliada">
+            <div class="nav-next">
+                <button onclick="nextImage()">Adelante</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        function setGridMode() {
+            const grid = document.getElementById('masonry-grid');
+            grid.className = 'masonry-grid grid-mode';
+            // Añadir evento de clic solo en modo cuadrícula
+            const images = grid.getElementsByTagName('img');
+            for (let img of images) {
+                img.onclick = function() {
+                    showImage(this.src, this.alt);
+                };
+            }
+        }
+
+        function setRowMode() {
+            const grid = document.getElementById('masonry-grid');
+            grid.className = 'masonry-grid row-mode';
+            // Remover evento de clic en modo cascada
+            const images = grid.getElementsByTagName('img');
+            for (let img of images) {
+                img.onclick = null;
+            }
+        }
+
+        let currentIndex = -1;
+        const images = document.querySelectorAll('#masonry-grid img');
+        const enlargedImage = document.getElementById('enlargedImage');
+        const body = document.body;
+
+        function showImage(src, alt) {
+            const overlay = document.getElementById('imageOverlay');
+            enlargedImage.src = src;
+            enlargedImage.alt = alt;
+            enlargedImage.style.transform = 'translate(-50%, -50%)'; // Centrar sin escala fija
+            overlay.classList.add('active');
+            body.style.overflow = 'hidden'; // Desactivar desplazamiento de fondo al abrir overlay
+
+            // Encontrar el índice de la imagen actual
+            currentIndex = Array.from(images).findIndex(img => img.src === src);
+        }
+
+        function closeOverlay() {
+            const overlay = document.getElementById('imageOverlay');
+            overlay.classList.remove('active');
+            body.style.overflow = 'auto'; // Restaurar desplazamiento de fondo al cerrar overlay
+        }
+
+        function nextImage() {
+            if (currentIndex < images.length - 1) {
+                currentIndex++;
+                showImage(images[currentIndex].src, images[currentIndex].alt);
+            }
+        }
+
+        function prevImage() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                showImage(images[currentIndex].src, images[currentIndex].alt);
+            }
+        }
+
+        // Establecer modo predeterminado (cuadrícula) al cargar la página
+        window.onload = setGridMode;
+
+        // Cerrar overlay al hacer clic fuera de la imagen
+        document.getElementById('imageOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeOverlay();
+            }
+        });
+    </script>
+</body>
+</html>
