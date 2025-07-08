@@ -10,6 +10,9 @@
         body {
             background-color: #0a1c2e; /* Fondo azul negro */
             font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: auto; /* Permitir desplazamiento por defecto */
         }
         .navbar {
             background-color: #1a252f;
@@ -58,6 +61,7 @@
         .masonry-item {
             break-inside: avoid;
             margin-bottom: 20px;
+            cursor: pointer; /* Indicador de clic en modo cuadrícula */
         }
         .masonry-item img {
             width: 100%;
@@ -74,6 +78,77 @@
             padding-left: 10px;
             padding-right: 10px;
             margin: 0 auto;
+        }
+        /* Estilos para el overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            overflow: auto; /* Permitir desplazamiento si la imagen es ancha */
+        }
+        .overlay.active {
+            display: flex;
+        }
+        .overlay img {
+            max-height: 100vh; /* Ocupa el alto de la pantalla */
+            width: auto; /* Ajusta el ancho proporcionalmente */
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .overlay .controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .overlay .controls button {
+            background-color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1.2rem;
+        }
+        .overlay .controls button:hover {
+            background-color: #e91e63;
+            color: #fff;
+        }
+        .overlay .nav-prev {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .overlay .nav-next {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .overlay .nav-prev button,
+        .overlay .nav-next button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .overlay .nav-prev button:hover,
+        .overlay .nav-next button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -142,6 +217,20 @@
             <div class="masonry-item"><img src="MANGAS/Seiyoku ni Shoujiki Sugiru Shota Yuusha 2/034.webp" alt="Seiyoku ni Shoujiki Sugiru Shota Yuusha 2 Página 34"></div>
             <div class="masonry-item"><img src="MANGAS/Seiyoku ni Shoujiki Sugiru Shota Yuusha 2/035.webp" alt="Seiyoku ni Shoujiki Sugiru Shota Yuusha 2 Página 35"></div>
         </div>
+
+        <!-- Overlay para vista ampliada -->
+        <div class="overlay" id="imageOverlay">
+            <div class="controls">
+                <button onclick="closeOverlay()">X</button>
+            </div>
+            <div class="nav-prev">
+                <button onclick="prevImage()">Atrás</button>
+            </div>
+            <img id="enlargedImage" src="" alt="Imagen Ampliada">
+            <div class="nav-next">
+                <button onclick="nextImage()">Adelante</button>
+            </div>
+        </div>
     </main>
 
     <!-- Bootstrap JS -->
@@ -150,15 +239,71 @@
         function setGridMode() {
             const grid = document.getElementById('masonry-grid');
             grid.className = 'masonry-grid grid-mode';
+            // Añadir evento de clic solo en modo cuadrícula
+            const images = grid.getElementsByTagName('img');
+            for (let img of images) {
+                img.onclick = function() {
+                    showImage(this.src, this.alt);
+                };
+            }
         }
 
         function setRowMode() {
             const grid = document.getElementById('masonry-grid');
             grid.className = 'masonry-grid row-mode';
+            // Remover evento de clic en modo cascada
+            const images = grid.getElementsByTagName('img');
+            for (let img of images) {
+                img.onclick = null;
+            }
+        }
+
+        let currentIndex = -1;
+        const images = document.querySelectorAll('#masonry-grid img');
+        const enlargedImage = document.getElementById('enlargedImage');
+        const body = document.body;
+
+        function showImage(src, alt) {
+            const overlay = document.getElementById('imageOverlay');
+            enlargedImage.src = src;
+            enlargedImage.alt = alt;
+            enlargedImage.style.transform = 'translate(-50%, -50%)'; // Centrar sin escala fija
+            overlay.classList.add('active');
+            body.style.overflow = 'hidden'; // Desactivar desplazamiento de fondo al abrir overlay
+
+            // Encontrar el índice de la imagen actual
+            currentIndex = Array.from(images).findIndex(img => img.src === src);
+        }
+
+        function closeOverlay() {
+            const overlay = document.getElementById('imageOverlay');
+            overlay.classList.remove('active');
+            body.style.overflow = 'auto'; // Restaurar desplazamiento de fondo al cerrar overlay
+        }
+
+        function nextImage() {
+            if (currentIndex < images.length - 1) {
+                currentIndex++;
+                showImage(images[currentIndex].src, images[currentIndex].alt);
+            }
+        }
+
+        function prevImage() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                showImage(images[currentIndex].src, images[currentIndex].alt);
+            }
         }
 
         // Establecer modo predeterminado (cuadrícula) al cargar la página
         window.onload = setGridMode;
+
+        // Cerrar overlay al hacer clic fuera de la imagen
+        document.getElementById('imageOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeOverlay();
+            }
+        });
     </script>
 </body>
 </html>
