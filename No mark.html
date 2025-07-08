@@ -103,6 +103,10 @@
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
             transition: transform 0.3s ease;
             cursor: grab; /* Indicador de arrastre */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform-origin: center center;
         }
         .overlay img:active {
             cursor: grabbing;
@@ -181,42 +185,42 @@
             <button class="btn btn-primary" onclick="setRowMode()">Modo Cascada</button>
         </div>
         <div class="masonry-grid grid-mode" id="masonry-grid">
-            <div class="masonry-item"><img src="MANGAS/NO MARK/000.webp" alt="No Mark Página 1"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/001.webp" alt="No Mark Página 2"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/002.webp" alt="No Mark Página 3"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/003.webp" alt="No Mark Página 4"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/004.webp" alt="No Mark Página 5"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/005.webp" alt="No Mark Página 6"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/006.webp" alt="No Mark Página 7"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/007.webp" alt="No Mark Página 8"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/008.webp" alt="No Mark Página 9"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/009.webp" alt="No Mark Página 10"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/010.webp" alt="No Mark Página 11"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/011.webp" alt="No Mark Página 12"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/012.webp" alt="No Mark Página 13"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/013.webp" alt="No Mark Página 14"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/014.webp" alt="No Mark Página 15"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/015.webp" alt="No Mark Página 16"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/016.webp" alt="No Mark Página 17"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/017.webp" alt="No Mark Página 18"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/018.webp" alt="No Mark Página 19"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/019.webp" alt="No Mark Página 20"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/020.webp" alt="No Mark Página 21"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/021.webp" alt="No Mark Página 22"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/022.webp" alt="No Mark Página 23"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/023.webp" alt="No Mark Página 24"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/024.webp" alt="No Mark Página 25"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/025.webp" alt="No Mark Página 26"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/026.webp" alt="No Mark Página 27"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/027.webp" alt="No Mark Página 28"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/028.webp" alt="No Mark Página 29"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/029.webp" alt="No Mark Página 30"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/030.webp" alt="No Mark Página 31"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/031.webp" alt="No Mark Página 32"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/032.webp" alt="No Mark Página 33"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/033.webp" alt="No Mark Página 34"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/034.webp" alt="No Mark Página 35"></div>
-            <div class="masonry-item"><img src="MANGAS/NO MARK/035.webp" alt="No Mark Página 36"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/000.webp" alt="No Mark Página 1"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/001.webp" alt="No Mark Página 2"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/002.webp" alt="No Mark Página 3"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/003.webp" alt="No Mark Página 4"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/004.webp" alt="No Mark Página 5"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/005.webp" alt="No Mark Página 6"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/006.webp" alt="No Mark Página 7"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/007.webp" alt="No Mark Página 8"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/008.webp" alt="No Mark Página 9"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/009.webp" alt="No Mark Página 10"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/010.webp" alt="No Mark Página 11"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/011.webp" alt="No Mark Página 12"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/012.webp" alt="No Mark Página 13"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/013.webp" alt="No Mark Página 14"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/014.webp" alt="No Mark Página 15"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/015.webp" alt="No Mark Página 16"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/016.webp" alt="No Mark Página 17"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/017.webp" alt="No Mark Página 18"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/018.webp" alt="No Mark Página 19"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/019.webp" alt="No Mark Página 20"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/020.webp" alt="No Mark Página 21"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/021.webp" alt="No Mark Página 22"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/022.webp" alt="No Mark Página 23"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/023.webp" alt="No Mark Página 24"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/024.webp" alt="No Mark Página 25"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/025.webp" alt="No Mark Página 26"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/026.webp" alt="No Mark Página 27"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/027.webp" alt="No Mark Página 28"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/028.webp" alt="No Mark Página 29"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/029.webp" alt="No Mark Página 30"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/030.webp" alt="No Mark Página 31"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/031.webp" alt="No Mark Página 32"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/032.webp" alt="No Mark Página 33"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/033.webp" alt="No Mark Página 34"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/034.webp" alt="No Mark Página 35"></div>
+            <div class="masonry-item"><img src="/MANGAS/NO MARK/035.webp" alt="No Mark Página 36"></div>
         </div>
 
         <!-- Overlay para vista ampliada -->
@@ -260,7 +264,6 @@
         }
 
         let currentIndex = -1;
-        let scale = 1;
         let isDragging = false;
         let startX = 0;
         let startY = 0;
@@ -274,10 +277,12 @@
             const overlay = document.getElementById('imageOverlay');
             enlargedImage.src = src;
             enlargedImage.alt = alt;
-            scale = 1; // Reset scale
-            translateX = 0;
-            translateY = 0;
-            enlargedImage.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+            const scale = 2; // Agrandar al doble
+            // Centrar la imagen inicialmente
+            const rect = enlargedImage.getBoundingClientRect();
+            translateX = (window.innerWidth - rect.width * scale) / 2;
+            translateY = (window.innerHeight - rect.height * scale) / 2;
+            enlargedImage.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
             overlay.classList.add('active');
             body.style.overflow = 'hidden'; // Desactivar desplazamiento de fondo al abrir overlay
 
@@ -288,8 +293,6 @@
             enlargedImage.addEventListener('mousedown', startDragging);
             document.addEventListener('mousemove', drag);
             document.addEventListener('mouseup', stopDragging);
-            // Añadir evento de zoom con rueda
-            enlargedImage.addEventListener('wheel', handleZoom);
         }
 
         function closeOverlay() {
@@ -300,7 +303,6 @@
             enlargedImage.removeEventListener('mousedown', startDragging);
             document.removeEventListener('mousemove', drag);
             document.removeEventListener('mouseup', stopDragging);
-            enlargedImage.removeEventListener('wheel', handleZoom);
         }
 
         function nextImage() {
@@ -317,29 +319,6 @@
             }
         }
 
-        function handleZoom(e) {
-            e.preventDefault(); // Evita el desplazamiento de la página
-            const rect = enlargedImage.getBoundingClientRect();
-            const mouseX = e.clientX - rect.left; // Posición X relativa a la imagen
-            const mouseY = e.clientY - rect.top; // Posición Y relativa a la imagen
-            const width = rect.width;
-            const height = rect.height;
-
-            // Ajustar el zoom progresivamente con baja sensibilidad
-            const delta = e.deltaY * -0.001; // Sensibilidad baja para zoom suave
-            scale = Math.min(Math.max(1, scale + delta), 2); // Limita entre 1x y 2x
-
-            // Calcular el desplazamiento para centrar el zoom en el ratón
-            const newWidth = width * scale;
-            const newHeight = height * scale;
-            const offsetX = (mouseX / width) * (newWidth - width);
-            const offsetY = (mouseY / height) * (newHeight - height);
-            translateX -= offsetX;
-            translateY -= offsetY;
-
-            enlargedImage.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
-        }
-
         function startDragging(e) {
             isDragging = true;
             startX = e.clientX - translateX;
@@ -350,7 +329,7 @@
             if (isDragging) {
                 translateX = e.clientX - startX;
                 translateY = e.clientY - startY;
-                enlargedImage.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+                enlargedImage.style.transform = `translate(${translateX}px, ${translateY}px) scale(2)`;
             }
         }
 
