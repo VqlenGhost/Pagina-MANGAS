@@ -91,25 +91,21 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            overflow: hidden; /* Evita desplazamiento de fondo solo en overlay */
+            overflow: auto; /* Permitir desplazamiento si la imagen es ancha */
         }
         .overlay.active {
             display: flex;
         }
         .overlay img {
-            max-width: 90%;
-            max-height: 90%;
+            max-height: 100vh; /* Ocupa el alto de la pantalla */
+            width: auto; /* Ajusta el ancho proporcionalmente */
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
             transition: transform 0.3s ease;
-            cursor: grab; /* Indicador de arrastre */
             position: absolute;
             top: 50%;
             left: 50%;
-            transform-origin: center center;
-        }
-        .overlay img:active {
-            cursor: grabbing;
+            transform: translate(-50%, -50%);
         }
         .overlay .controls {
             position: absolute;
@@ -229,11 +225,11 @@
                 <button onclick="closeOverlay()">X</button>
             </div>
             <div class="nav-prev">
-                <button onclick="prevImage()">Anterior</button>
+                <button onclick="prevImage()">Atrás</button>
             </div>
             <img id="enlargedImage" src="" alt="Imagen Ampliada">
             <div class="nav-next">
-                <button onclick="nextImage()">Siguiente</button>
+                <button onclick="nextImage()">Adelante</button>
             </div>
         </div>
     </main>
@@ -264,11 +260,6 @@
         }
 
         let currentIndex = -1;
-        let isDragging = false;
-        let startX = 0;
-        let startY = 0;
-        let translateX = 0;
-        let translateY = 0;
         const images = document.querySelectorAll('#masonry-grid img');
         const enlargedImage = document.getElementById('enlargedImage');
         const body = document.body;
@@ -277,32 +268,18 @@
             const overlay = document.getElementById('imageOverlay');
             enlargedImage.src = src;
             enlargedImage.alt = alt;
-            const scale = 2; // Agrandar al doble
-            // Centrar la imagen inicialmente
-            const rect = enlargedImage.getBoundingClientRect();
-            translateX = (window.innerWidth - rect.width * scale) / 2;
-            translateY = (window.innerHeight - rect.height * scale) / 2;
-            enlargedImage.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+            enlargedImage.style.transform = 'translate(-50%, -50%)'; // Centrar sin escala fija
             overlay.classList.add('active');
             body.style.overflow = 'hidden'; // Desactivar desplazamiento de fondo al abrir overlay
 
             // Encontrar el índice de la imagen actual
             currentIndex = Array.from(images).findIndex(img => img.src === src);
-
-            // Añadir eventos de arrastre
-            enlargedImage.addEventListener('mousedown', startDragging);
-            document.addEventListener('mousemove', drag);
-            document.addEventListener('mouseup', stopDragging);
         }
 
         function closeOverlay() {
             const overlay = document.getElementById('imageOverlay');
             overlay.classList.remove('active');
             body.style.overflow = 'auto'; // Restaurar desplazamiento de fondo al cerrar overlay
-            // Remover eventos para evitar conflictos
-            enlargedImage.removeEventListener('mousedown', startDragging);
-            document.removeEventListener('mousemove', drag);
-            document.removeEventListener('mouseup', stopDragging);
         }
 
         function nextImage() {
@@ -317,25 +294,6 @@
                 currentIndex--;
                 showImage(images[currentIndex].src, images[currentIndex].alt);
             }
-        }
-
-        function startDragging(e) {
-            isDragging = true;
-            startX = e.clientX - translateX;
-            startY = e.clientY - translateY;
-        }
-
-        function drag(e) {
-            if (isDragging) {
-                translateX = e.clientX - startX;
-                translateY = e.clientY - startY;
-                enlargedImage.style.transform = `translate(${translateX}px, ${translateY}px) scale(2)`;
-            }
-        }
-
-        function stopDragging() {
-            isDragging = false;
-            // La imagen se queda donde está al soltar, sin resetear
         }
 
         // Establecer modo predeterminado (cuadrícula) al cargar la página
