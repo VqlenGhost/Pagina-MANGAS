@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamegoto _ Ajuste - TuMangaOnline</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #0a1c2e; /* Fondo azul negro */
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: auto; /* Permitir desplazamiento por defecto */
+        }
+        .navbar {
+            background-color: #1a252f;
+        }
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+            font-weight: bold;
+        }
+        .nav-link:hover {
+            color: #e91e63 !important;
+        }
+        .manga-title {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 40px 0;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        .mode-buttons {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .mode-buttons button {
+            margin: 0 10px;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+        }
+        .masonry-grid {
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+        }
+        .masonry-grid.grid-mode {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .masonry-grid.row-mode {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 20px;
+            cursor: pointer; /* Indicador de clic en modo cuadrícula */
+        }
+        .masonry-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .masonry-item img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        main {
+            padding-left: 10px;
+            padding-right: 10px;
+            margin: 0 auto;
+        }
+        /* Estilos para el overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            overflow: auto; /* Permitir desplazamiento si la imagen es ancha */
+        }
+        .overlay.active {
+            display: flex;
+        }
+        .overlay img {
+            max-height: 100vh; /* Ocupa el alto de la pantalla */
+            width: auto; /* Ajusta el ancho proporcionalmente */
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .overlay .controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .overlay .controls button {
+            background-color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1.2rem;
+        }
+        .overlay .controls button:hover {
+            background-color: #e91e63;
+            color: #fff;
+        }
+        .overlay .nav-prev {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .overlay .nav-next {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .overlay .nav-prev button,
+        .overlay .nav-next button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .overlay .nav-prev button:hover,
+        .overlay .nav-next button:hover {
+            background-color: #0056b3;
+        }
+        .chapter-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+            max-width: 1200px; /* Ancho máximo para las tarjetas */
+            gap: 20px; /* Espacio entre tarjetas */
+            flex-wrap: wrap; /* Permitir que las tarjetas se ajusten en pantallas pequeñas */
+        }
+        .chapter-card {
+            width: 300px;
+            background-color: #1a252f;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .chapter-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+        .chapter-card img {
+            width: 100%;
+            height: 400px; /* Altura fija para consistencia */
+            object-fit: cover; /* Ajustar imagen sin distorsión */
+        }
+        .chapter-card h3 {
+            color: #fff;
+            text-align: center;
+            margin: 15px 0;
+            font-size: 1.5rem;
+        }
+        .chapter-section {
+            display: none;
+        }
+        .chapter-section.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">TuMangaOnline</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="upload.html">Subir Manga</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Manga Content -->
+    <main>
+        <h1 class="manga-title">Hamegoto _ Ajuste</h1>
+        <div class="chapter-buttons" id="chapterButtons">
+            <div class="chapter-card" onclick="showChapter(1)">
+                <img src="SUBIDOS/Imagnes portada/Hamegoto _ Ajuste.png" alt="Portada Capítulo 1">
+                <h3>Capítulo 1</h3>
+            </div>
+            <div class="chapter-card" onclick="showChapter(2)">
+                <img src="SUBIDOS/Imagnes portada/Hamegoto 2 _ Ajuste II.webp" alt="Portada Capítulo 2">
+                <h3>Capítulo 2</h3>
+            </div>
+            <div class="chapter-card" onclick="showChapter(3)">
+                <img src="SUBIDOS/Imagnes portada/Hamegoto 3 _ Ajuste 3.webp" alt="Portada Capítulo 3">
+                <h3>Capítulo 3</h3>
+            </div>
+        </div>
+
+        <!-- Capítulo 1 -->
+        <div class="chapter-section" id="chapter1">
+            <div class="mode-buttons">
+                <button class="btn btn-primary" onclick="setGridMode(1)">Modo Cuadrícula</button>
+                <button class="btn btn-primary" onclick="setRowMode(1)">Modo Cascada</button>
+            </div>
+            <div class="masonry-grid grid-mode" id="masonry-grid-1">
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/01.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 1"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/02.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 2"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/03.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 3"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/04.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 4"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/05.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 5"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/06.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 6"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/07.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 7"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/08.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 8"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/09.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 9"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/10.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 10"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/11.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 11"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/12.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 12"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/13.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 13"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/14.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 14"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/15.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 15"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/16.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 16"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/17.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 17"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/18.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 18"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/19.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 19"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/20.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 20"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/21.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 21"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/22.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 22"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/23.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 23"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/24.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 24"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/25.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 25"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/26.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 26"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/27.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 27"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/28.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 28"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/29.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 29"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/30.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 30"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/31.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 31"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/32.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 32"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/33.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 33"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/34.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 34"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/35.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 35"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/36.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 36"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/37.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 37"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/38.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 38"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/39.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 39"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/40.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 40"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/41.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 41"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/42.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 42"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/43.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 43"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/44.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 44"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/45.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 45"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/46.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 46"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/47.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 47"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/48.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 48"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto _ Ajuste/49.webp" alt="Hamegoto _ Ajuste Capítulo 1 Página 49"></div>
+            </div>
+        </div>
+
+        <!-- Capítulo 2 -->
+        <div class="chapter-section" id="chapter2">
+            <div class="mode-buttons">
+                <button class="btn btn-primary" onclick="setGridMode(2)">Modo Cuadrícula</button>
+                <button class="btn btn-primary" onclick="setRowMode(2)">Modo Cascada</button>
+            </div>
+            <div class="masonry-grid grid-mode" id="masonry-grid-2">
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/01.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 1"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/02.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 2"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/03.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 3"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/04.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 4"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/05.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 5"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/06.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 6"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/07.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 7"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/08.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 8"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/09.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 9"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/10.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 10"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/11.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 11"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/12.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 12"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/13.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 13"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/14.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 14"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/15.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 15"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/16.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 16"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/17.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 17"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/18.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 18"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/19.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 19"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/20.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 20"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/21.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 21"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/22.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 22"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/23.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 23"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/24.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 24"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/25.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 25"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/26.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 26"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/27.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 27"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/28.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 28"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/29.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 29"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/30.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 30"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/31.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 31"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/32.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 32"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/33.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 33"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/34.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 34"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/35.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 35"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/36.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 36"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/37.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 37"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/38.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 38"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/39.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 39"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/40.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 40"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/41.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 41"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/42.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 42"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/43.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 43"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/44.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 44"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/45.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 45"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/46.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 46"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 2 _ Ajuste II/47.webp" alt="Hamegoto _ Ajuste Capítulo 2 Página 47"></div>
+            </div>
+        </div>
+
+        <!-- Capítulo 3 -->
+        <div class="chapter-section" id="chapter3">
+            <div class="mode-buttons">
+                <button class="btn btn-primary" onclick="setGridMode(3)">Modo Cuadrícula</button>
+                <button class="btn btn-primary" onclick="setRowMode(3)">Modo Cascada</button>
+            </div>
+            <div class="masonry-grid grid-mode" id="masonry-grid-3">
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/01.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 1"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/02.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 2"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/03.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 3"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/04.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 4"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/05.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 5"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/06.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 6"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/07.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 7"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/08.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 8"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/09.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 9"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/10.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 10"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/11.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 11"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/12.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 12"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/13.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 13"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/14.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 14"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/15.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 15"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/16.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 16"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/17.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 17"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/18.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 18"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/19.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 19"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/20.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 20"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/21.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 21"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/22.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 22"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/23.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 23"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/24.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 24"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/25.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 25"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/26.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 26"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/27.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 27"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/28.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 28"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/29.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 29"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/30.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 30"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/31.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 31"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/32.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 32"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/33.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 33"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/34.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 34"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/35.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 35"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/36.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 36"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/37.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 37"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/38.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 38"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/39.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 39"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/40.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 40"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/41.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 41"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/42.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 42"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/43.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 43"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/44.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 44"></div>
+                <div class="masonry-item"><img src="MANGAS/Hamegoto 3 _ Ajuste 3/45.webp" alt="Hamegoto _ Ajuste Capítulo 3 Página 45"></div>
+            </div>
+        </div>
+
+        <!-- Overlay para vista ampliada -->
+        <div class="overlay" id="imageOverlay">
+            <div class="controls">
+                <button onclick="closeOverlay()">X</button>
+            </div>
+            <div class="nav-prev">
+                <button onclick="prevImage()">Atrás</button>
+            </div>
+            <img id="enlargedImage" src="" alt="Imagen Ampliada">
+            <div class="nav-next">
+                <button onclick="nextImage()">Adelante</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        function showChapter(chapter) {
+            const chapters = document.querySelectorAll('.chapter-section');
+            chapters.forEach(ch => ch.classList.remove('active'));
+            document.getElementById(`chapter${chapter}`).classList.add('active');
+            setGridMode(chapter); // Establecer modo cuadrícula por defecto
+        }
+
+        function setGridMode(chapter) {
+            const grid = document.getElementById(`masonry-grid-${chapter}`);
+            grid.className = 'masonry-grid grid-mode';
+            const images = grid.getElementsByTagName('img');
+            for (let img of images) {
+                img.onclick = function() {
+                    showImage(this.src, this.alt, chapter);
+                };
+            }
+        }
+
+        function setRowMode(chapter) {
+            const grid = document.getElementById(`masonry-grid-${chapter}`);
+            grid.className = 'masonry-grid row-mode';
+            const images = grid.getElementsByTagName('img');
+            for (let img of images) {
+                img.onclick = null;
+            }
+        }
+
+        let currentIndex = -1;
+        let currentChapter = 1;
+
+        function showImage(src, alt, chapter) {
+            const overlay = document.getElementById('imageOverlay');
+            const enlargedImage = document.getElementById('enlargedImage');
+            enlargedImage.src = src;
+            enlargedImage.alt = alt;
+            enlargedImage.style.transform = 'translate(-50%, -50%)';
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            currentChapter = chapter;
+            const images = document.querySelectorAll(`#masonry-grid-${chapter} img`);
+            currentIndex = Array.from(images).findIndex(img => img.src === src);
+        }
+
+        function closeOverlay() {
+            const overlay = document.getElementById('imageOverlay');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function nextImage() {
+            const images = document.querySelectorAll(`#masonry-grid-${currentChapter} img`);
+            if (currentIndex < images.length - 1) {
+                currentIndex++;
+                showImage(images[currentIndex].src, images[currentIndex].alt, currentChapter);
+            }
+        }
+
+        function prevImage() {
+            const images = document.querySelectorAll(`#masonry-grid-${currentChapter} img`);
+            if (currentIndex > 0) {
+                currentIndex--;
+                showImage(images[currentIndex].src, images[currentIndex].alt, currentChapter);
+            }
+        }
+
+        // Cerrar overlay al hacer clic fuera de la imagen
+        document.getElementById('imageOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeOverlay();
+            }
+        });
+    </script>
+</body>
+</html>
