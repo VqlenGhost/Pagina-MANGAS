@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danchou Datta Ore wa Nyotaika Shita - TuMangaOnline</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #0a1c2e;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: auto;
+        }
+        .navbar {
+            background-color: #1a252f;
+        }
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+            font-weight: bold;
+        }
+        .nav-link:hover {
+            color: #e91e63 !important;
+        }
+        .manga-title {
+            text-align: center;
+            color: #fff;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 40px 0;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .mode-buttons {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .mode-buttons button {
+            margin: 0 10px;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+        }
+        .masonry-grid {
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+        }
+        .masonry-grid.grid-mode {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .masonry-grid.row-mode {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+        .masonry-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .masonry-item img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+        }
+        main {
+            padding-left: 10px;
+            padding-right: 10px;
+            margin: 0 auto;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            overflow: auto;
+        }
+        .overlay.active {
+            display: flex;
+        }
+        .overlay img {
+            max-height: 95vh;
+            max-width: 95vw;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .overlay .controls {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 1001;
+        }
+        .overlay .controls button {
+            background-color: #fff;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 50%;
+            font-size: 1.4rem;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .overlay .controls button:hover {
+            background-color: #e91e63;
+            color: #fff;
+        }
+        .overlay .nav-prev,
+        .overlay .nav-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1001;
+        }
+        .overlay .nav-prev {
+            left: 15px;
+        }
+        .overlay .nav-next {
+            right: 15px;
+        }
+        .overlay .nav-prev button,
+        .overlay .nav-next button {
+            background-color: rgba(0, 123, 255, 0.8);
+            color: #fff;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .overlay .nav-prev button:hover,
+        .overlay .nav-next button:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">TuMangaOnline</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="upload.html">Subir Manga</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Manga Content -->
+    <main>
+        <h1 class="manga-title">Danchou Datta Ore wa Nyotaika Shita</h1>
+        <div class="mode-buttons">
+            <button class="btn btn-primary" onclick="setGridMode()">Modo Cuadrícula</button>
+            <button class="btn btn-primary" onclick="setRowMode()">Modo Cascada</button>
+        </div>
+
+        <div class="masonry-grid grid-mode" id="masonry-grid">
+            <!-- Páginas del 1 al 39 -->
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/1.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 1"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/2.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 2"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/3.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 3"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/4.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 4"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/5.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 5"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/6.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 6"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/7.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 7"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/8.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 8"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/9.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 9"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/10.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 10"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/11.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 11"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/12.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 12"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/13.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 13"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/14.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 14"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/15.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 15"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/16.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 16"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/17.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 17"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/18.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 18"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/19.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 19"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/20.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 20"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/21.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 21"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/22.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 22"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/23.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 23"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/24.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 24"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/25.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 25"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/26.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 26"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/27.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 27"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/28.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 28"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/29.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 29"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/30.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 30"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/31.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 31"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/32.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 32"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/33.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 33"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/34.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 34"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/35.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 35"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/36.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 36"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/37.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 37"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/38.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 38"></div>
+            <div class="masonry-item"><img src="MANGAS/Danchou Datta Ore wa Nyotaika Shita/39.JPG" alt="Danchou Datta Ore wa Nyotaika Shita Capítulo 1 Página 39"></div>
+        </div>
+
+        <!-- Overlay para vista ampliada -->
+        <div class="overlay" id="imageOverlay">
+            <div class="controls">
+                <button onclick="closeOverlay()">X</button>
+            </div>
+            <div class="nav-prev">
+                <button onclick="prevImage()">Atrás</button>
+            </div>
+            <img id="enlargedImage" src="" alt="Imagen Ampliada">
+            <div class="nav-next">
+                <button onclick="nextImage()">Adelante</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        function setGridMode() {
+            const grid = document.getElementById('masonry-grid');
+            grid.className = 'masonry-grid grid-mode';
+            const images = grid.getElementsByTagName('img');
+            for (let img of images) {
+                img.onclick = function() {
+                    showImage(this.src, this.alt);
+                };
+            }
+        }
+
+        function setRowMode() {
+            const grid = document.getElementById('masonry-grid');
+            grid.className = 'masonry-grid row-mode';
+            const images = grid.getElementsByTagName('img');
+            for (let img of images) {
+                img.onclick = null;
+            }
+        }
+
+        let currentIndex = -1;
+        const images = document.querySelectorAll('#masonry-grid img');
+        const enlargedImage = document.getElementById('enlargedImage');
+        const body = document.body;
+
+        function showImage(src, alt) {
+            const overlay = document.getElementById('imageOverlay');
+            enlargedImage.src = src;
+            enlargedImage.alt = alt;
+            overlay.classList.add('active');
+            body.style.overflow = 'hidden';
+
+            currentIndex = Array.from(images).findIndex(img => img.src === src);
+        }
+
+        function closeOverlay() {
+            const overlay = document.getElementById('imageOverlay');
+            overlay.classList.remove('active');
+            body.style.overflow = 'auto';
+        }
+
+        function nextImage() {
+            if (currentIndex < images.length - 1) {
+                currentIndex++;
+                showImage(images[currentIndex].src, images[currentIndex].alt);
+            }
+        }
+
+        function prevImage() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                showImage(images[currentIndex].src, images[currentIndex].alt);
+            }
+        }
+
+        // Modo por defecto: Cuadrícula
+        window.onload = setGridMode;
+
+        // Cerrar al hacer clic fuera
+        document.getElementById('imageOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeOverlay();
+            }
+        });
+
+        // Navegación con teclado
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('imageOverlay').classList.contains('active')) {
+                if (e.key === 'ArrowRight') nextImage();
+                if (e.key === 'ArrowLeft') prevImage();
+                if (e.key === 'Escape') closeOverlay();
+            }
+        });
+    </script>
+</body>
+</html>
